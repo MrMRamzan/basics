@@ -5,6 +5,13 @@ require 'date'
 # require 'watir'
 # require "selenium-webdriver"
 require 'byebug'
+require 'net/http'
+require 'uri'
+require 'json'
+
+"http://linkedin.bitshare.cm/recommendations.php
+https://www.vanling.net/LinkedIn.htm
+https://socialrecommendator.com/"
 
 # str = "A-Be:"
 # p str.include?('-')
@@ -65,35 +72,35 @@ require 'byebug'
 # p 'Once upon a time in a world far far away'.truncate(27)
 # p truncate("Once upon a time in a world far far away", length: 17)
 
-def find_lat_lon(str)
-  new_str = ""
-  open_br = 0
-  check = false
-  str.each_char do |s|
-    check = true if s == "{"
-    if check
-      new_str += s
-      open_br += 1 if s == "{"
-      open_br -= 1 if s == "}"
-      break if open_br == 0
-    end
-  end
-  str = 0
+# def find_lat_lon(str)
+#   new_str = ""
+#   open_br = 0
+#   check = false
+#   str.each_char do |s|
+#     check = true if s == "{"
+#     if check
+#       new_str += s
+#       open_br += 1 if s == "{"
+#       open_br -= 1 if s == "}"
+#       break if open_br == 0
+#     end
+#   end
+#   str = 0
 
-  puts new_str
+#   puts new_str
 
-  first_half = new_str.split("position:").first
-  last_half = new_str.split("position:").last
+#   first_half = new_str.split("position:").first
+#   last_half = new_str.split("position:").last
 
-  (0...last_half.length).each do |n|
-    open_br += 1 if last_half[n] == "{"
-    open_br -= 1 if last_half[n] == "}"
-    last_half[n] = ""
-    break if open_br == 0
-  end
+#   (0...last_half.length).each do |n|
+#     open_br += 1 if last_half[n] == "{"
+#     open_br -= 1 if last_half[n] == "}"
+#     last_half[n] = ""
+#     break if open_br == 0
+#   end
 
-  new_str = first_half+last_half
-end
+#   new_str = first_half+last_half
+# end
 # str = ":{attachToElement:.js-streetview,streetViewPointOfView:{heading:0.0,pitch:0.0,zoom:1,position:{latitude:57.120951,longitude:-2.209209}},latitude:57.12100498080078,longitude:-2.2090583588012533,showOnInit:true,motionTracking:false},\r\nmarketInfoController:marketInfoController,\r\nchannel:gaTrackingChannel,\r\ntabsContainer:similarNearbyTabs,\r\n\t\tnearBySchools:nearBySchools,\r\n\t\tknockoutJsUrl:/ps/js18101/concat/js_main_v1/knockout-3.3.0.js,\r\n\t\tlocationTabContentsModel:{mapLocation:{latitude:57.120951,longitude:-2.209209,zoom:14,exact:true},streetViewPointOfView:{heading:0.0,pitch:0.0,zoom:1,position:{latitude:57.120951,longitude:-2.209209}},nearbyTubeLine:false,showStreetViewOption:true,defaultStreetView:false},\r\n\t\tbroadbandCtmUrl:https://partnerships-broadband.sergei.io/v1/broadband/rightmove/AB159BQ?apikey=45a4a9f3ccf90bcb9d27f8800a6670"
 # str = find_lat_lon(str)
 # latitude = str.split("latitude:").last.to_f
@@ -171,11 +178,285 @@ end
 
 # puts "£745,000".gsub("£","").gsub(",","").to_i
 
-p DateTime.now.strftime('%Y%m%d%H%M%S')
+# p DateTime.now.strftime('%Y%m%d%H%M%S')
+# p Time.parse("18:38:09").strftime()
+
 # xlsm_file = 'https://s3.amazonaws.com/buildsourced-production-1/Tenna+Asset+Report+v18.6.5.xlsm'
 # xlsx_file = "https://s3.amazonaws.com/buildsourced-production-1/Asset+Data+File.xlsx"
 # p open(xlsm_file).read
 
 # p download = open(xlsx_file).read
 # File.open('/tmp/Asset Data File.xlsx', 'wb') {|f| f.write(open(xlsx_src).read) }
-p 'active', as: :select, collection: ['pending', 'active','block']
+# p 'active', as: :select, collection: ['pending', 'active','block']
+
+# p [*('a'..'z'),*('0'..'9')].sample(7).join
+# p Date.today.strftime('%Y-%m-%d') == "2018-06-22"
+
+# p Date.today
+# p Time.now.strftime('%Y-%m-%d')
+
+
+# p boys_sport = ['Baseball', 'Basketball', 'Football', 'Wrestling', 'Volleyball', 'Water Polo', 'Track & Field', 'Tennis', 'Swimming & Diving', 'Soccer', 'Lacrosse', 'Gymnastics', 'Golf']
+
+# holiday_supplies = {
+#   "winter" => { 
+#     "Christmas" => ["lights", "tree"],
+#     "New Years" => "champagne glasses"
+#   },
+#   "summer" => {
+#     "July Fourth" => ["BBQ", "flags"]
+#   },
+#   "spring" => {
+#     "Memorial Day" => "BBQ"
+#   },
+#   "fall" => {
+#     "Labor Day" => "hot dogs"
+#   }
+# }
+
+# text = "   asd asd asd    \n     \n"
+# p text.strip
+# p text.lstrip
+# p text.rstrip
+# p text.chomp
+# p text.delete(" \t\r\n")
+# p text.squeeze(' ')
+
+# sport_type = {
+#   "Boys" => ['Baseball', 'Basketball', 'Football', 'Wrestling', 'Volleyball', 'Water Polo', 'Track & Field', 'Tennis', 'Swimming & Diving', 'Soccer', 'Lacrosse', 'Gymnastics', 'Golf'],
+#   "Girls" => ['Badmiton', 'Basketball', 'Golf', 'Gymnastics', 'Soccer', 'Softball', 'Swimming & Diving', 'Tennis', 'Track & Field ', 'Volleyball', 'Water Polo'],
+#   "Others" => ['Band', 'Chorus', 'Cheerleading', 'Debate', 'Other', 'Marching Band', 'Dance']
+# }
+
+# p sport_type["Boys"].include?('Baseball')
+
+  # def get_live_streams_codes
+  #   require 'httparty'
+  #   response = HTTParty.get("http://192.168.1.101:8087/v2/servers/_defaultServer_/vhosts/_defaultVHost_/applications/live/instances/_definst_",
+  #                         headers:
+  #                         {
+  #                           "Content-Type" => "application/json"
+  #                         })
+  #   response
+  # end
+
+  # def response_verification(response)
+  #   response
+  #   names = []
+  #   parsed_res = response.parsed_response["Instance"]["IncomingStreams"] if response.code == 200
+  #   p parsed_res["IncomingStream"].nil?
+  #   if response.code == 200 && !parsed_res.nil? && !parsed_res["IncomingStream"].nil?
+  #     names << get_streams_name(response)
+  #   end
+  #   names.flatten
+  # end
+
+  # def get_streams_name(response)
+  #   streams = response.parsed_response["Instance"]["IncomingStreams"]["IncomingStream"]
+  #   streams = streams.collect { |stream| stream["Name"] }
+  #   streams = streams.delete_if { |stream| stream.include? ("_") }
+  #   streams.uniq
+  # end
+
+  # p response_verification(get_live_streams_codes)
+
+require 'active_support/core_ext/hash'
+
+# url = URI("http://192.168.0.118:1935/converter.xml?command=convert&streamname=1mtqywr_720p&startoffset=32000")
+# p response = Hash.from_xml(Net::HTTP.get(url))
+# p '*'*100
+# url = URI("http://192.168.0.118:1935/converter.xml?command=expire&streamname=xPIJm0E_720p")
+# p response = Hash.from_xml(Net::HTTP.get(url))
+
+# url = URI("http://192.168.0.118:1935/converter.xml?command=expire&streamname=xPIJm0E_720p")
+# p response = Hash.from_xml(Net::HTTP.get(url))
+
+# response = {"WowzaMediaServer"=>{"status"=>"200", "ApplicationName"=>"live", "InstanceName"=>"_definst_", "DVR"=>{"ContextObject"=>"com.wowza.wms.dvr.DvrApplicationConverterContext@7e711f2f", "StoreName"=>["1mtqywr contains version 0", "1mtqywr_360p contains version 0", "1mtqywr_720p contains version 0", "xPIJm0E contains version 0", "xPIJm0E_360p contains version 0", "xPIJm0E_720p contains version 0"], "ForceExpirePreviousConversions"=>{"CurrentStore"=>"xPIJm0E_720p.0", "State"=>"RUNNING"}, "ForcingExpiry"=>{"UnexpiredStore"=>"xPIJm0E_720p.0", "State"=>"RUNNING"}}}}
+# response = {"WowzaMediaServer"=>{"status"=>"200", "ApplicationName"=>"live", "InstanceName"=>"_definst_", "DVR"=>{"ContextObject"=>"com.wowza.wms.dvr.DvrApplicationConverterContext@7e711f2f", "StoreName"=>["1mtqywr contains version 0", "1mtqywr_360p contains version 0", "1mtqywr_720p contains version 0", "xPIJm0E contains version 0", "xPIJm0E_360p contains version 0", "xPIJm0E_720p contains version 0"], "ForceExpirePreviousConversions"=>{"CurrentStore"=>["xPIJm0E_720p.0", "1mtqywr_720p.0"], "State"=>["RUNNING", "RUNNING"]}, "ForcingExpiry"=>{"UnexpiredStore"=>["xPIJm0E_720p.0", "1mtqywr_720p.0"], "State"=>["RUNNING", "RUNNING"]}}}}
+# response = {"WowzaMediaServer"=>{"status"=>"200", "ApplicationName"=>"live", "InstanceName"=>"_definst_", "DVR"=>{"ContextObject"=>"com.wowza.wms.dvr.DvrApplicationConverterContext@7e711f2f", "StoreName"=>["1mtqywr contains version 0", "1mtqywr_360p contains version 0", "1mtqywr_720p contains version 0", "xPIJm0E contains version 0", "xPIJm0E_360p contains version 0", "xPIJm0E_720p contains version 0"], "ForceExpirePreviousConversions"=>nil, "ForcingExpiry"=>nil}}}
+# p response["WowzaMediaServer"]["DVR"]["ForceExpirePreviousConversions"]["CurrentStore"].include?("xPIJm0E_720p.0")
+# p response["WowzaMediaServer"]["DVR"]["ForceExpirePreviousConversions"]["State"]
+# p response["WowzaMediaServer"]["DVR"]["ForceExpirePreviousConversions"]["CurrentStore"].include?("xPIJm0E_720p.0")
+# p i = response["WowzaMediaServer"]["DVR"]["ForceExpirePreviousConversions"]["CurrentStore"].find_index("xPIJm0E_720p.0")
+# p response["WowzaMediaServer"]["DVR"]["ForceExpirePreviousConversions"]["State"][0]
+# unless response["WowzaMediaServer"]["error"].present?
+#   ndvrStore = response["WowzaMediaServer"]["DVR"]["ForceExpirePreviousConversions"]
+#   if ndvrStore.present? && ndvrStore["CurrentStore"].include?("xPIJm0E_720p.0")
+#     if ndvrStore["CurrentStore"].kind_of?(Array)
+#       p i = ndvrStore["CurrentStore"].find_index("xPIJm0E_720p.0")
+#       if ndvrStore["State"][i] == "RUNNING"
+#         sleep(2) 
+#         response = Hash.from_xml(Net::HTTP.get(url))
+#         puts "next request"
+#       end
+#     else
+#       if ndvrStore["CurrentStore"] == "xPIJm0E_720p.0" && ndvrStore["State"] == "RUNNING"
+#         sleep(2) 
+#         response = Hash.from_xml(Net::HTTP.get(url))
+#         puts "next request"
+#       end
+#     end
+#   end
+# end
+
+# def convert_ndvr(code)
+#   url = URI("http://192.168.0.118:1935/converter.xml?command=convert&streamname=#{code}&startoffset=32000")
+#   response = Hash.from_xml(Net::HTTP.get(url))
+#   if response["WowzaMediaServer"]["error"].present?
+#     return false
+#   else
+#     return response["WowzaMediaServer"]["DVR"]["StoreConversionSelected"]["ConversionStarted"]["FileName"] == code+".0"
+#   end
+# end
+
+
+# if convert_ndvr("xPIJm0E_720p")
+# else
+#   "error"
+# end
+
+# file_name = "asyu7h_720p.0.mp4"
+# file_name = "asyu7h_720p.0_0.mp4"
+# file_name = "asyu7h_720p.0_1.mp4"
+# clip_no = file_name.split(".")[1]
+# file_name = file_name.gsub(clip_no, (clip_no.size > 1 ? "0_"+(clip_no.split("_")[1].to_i+1).to_s : clip_no+"_0"))
+
+# # p file_name
+
+
+# p file_name = "xPIJm0E_720p.0.mp4"
+# p clip_no = file_name.split(".")[1]
+# file_name = file_name.gsub('.'+clip_no, '.'+(clip_no.size > 1 ? "0_"+(clip_no.split("_")[1].to_i+1).to_s : clip_no+"_0"))
+# p file_name
+
+  
+
+# @sport_type = ['Baseball', 'Basketball', 'Football', 'Wrestling', 'Volleyball', 'Water Polo', 'Track & Field', 'Tennis', 'Swimming & Diving', 'Soccer', 'Lacrosse', 'Gymnastics', 'Golf']
+
+# @sport_type.each_with_index.map {|k, v| 
+#   p k.humanize.capitalize
+#   p v
+# }
+
+
+# str = "asda-asda! asd@asdsa"
+# p str.sub(/.*?@/, '') #remove every before @
+# p str[/[^@]+/] #remove every after @
+# p str[/[^@]+/] #remove every after @ and if there is nothing before @ return ""
+# str = "@asdsa"
+# p str[/[^@]+/]
+
+# t = "2018-10-04 07:00 AM -05:00"
+# p Time.parse(t).in_time_zone("Asia/Karachi").strftime("%m/%d/%g %I:%M%P")
+# video_url = "https://s3.amazonaws.com/zoom-aws-bucket/schools/5/events/168/video/01xRu8V.mp4"
+# p video_url.gsub("https://s3.amazonaws.com/zoom-aws-bucket/schools/5/events/168/video/", "").gsub(".mp4", "")
+
+# arr = [5,3,1,4,6,7,43,56,8,85,3]
+# p arr.drop(2)
+# p arr
+
+# p raw "Please provide <b>Home</b> & Away Team OR Participants"
+
+
+# 1850
+# 1739
+# shipping price 339
+# fees_in_cent 607
+# 256
+
+
+# p 1850 - (1739 + 399  + 607 + 256)
+
+startClip = 1542897861572
+endClip = 1542897992328
+
+startClip = 1546338718923
+endClip = 1546338820884
+
+"1546338718923
+1546338760884"
+
+startoffset = 0
+endoffset = 0
+
+p endAt = (endClip - endoffset)
+p startAt = startClip
+
+p (endClip - endoffset - startoffset)..(endClip - endoffset)
+
+# p res =  endClip - startClip
+# p "total is 1:15"
+# # p "total is 1:21"
+# p "diff: #{ (res/1000)/60 }:#{ (res/1000)-60 }"
+
+# startAt = endClip - 40000;
+# if(startAt <  startClip)
+#   startAt = startClip
+# end
+
+# p "#{(81600/1000)/60}:#{(81600/1000)-60}"
+
+# require 'ostruct'
+# # authorization.plan.amount
+# hash = {created_at: Date.today, status: 'active'}
+# authorization = OpenStruct.new(hash)
+# p authorization.created_at
+
+# authorization = OpenStruct.new({created_at: Date.today, status: 'active', plan: OpenStruct.new(amount: 33.0)})
+# p authorization.plan.amount
+
+# p '*************'
+# begin
+#   p Time.parse("23:2323")
+# rescue
+#   begin
+#     p Time.parse("23:2323")
+#     # p '2'
+#   rescue
+#     p '3'
+#   end
+# ensure
+#   p '4'
+# end
+
+# p '************'
+# a = 3
+# b = 3
+# a = b = 5 if false
+# p a
+# p b
+
+
+
+
+
+
+# str = "asd-asd as asd_asd asd.s"
+# p str.humanize
+# p str.capitalize
+# p str.titleize
+# p str.gsub(/\b('?[a-z])/) { $1.capitalize }
+
+
+# home_team = "FC asd"
+# # home_team = "FC"
+# res = home_team[0..2].strip
+# p res.length
+# p res[0]+" "+res[1]
+# p res+"."
+# p ".F."
+
+
+# arr = [1,2,3,5]
+# arr.each do |n|
+#   p n
+# end
+
+# arr.map { |n| p n }
+
+=begin
+  http://13.52.116.110:8086/AutoRecordPath.xml?streamName=7GZP0l9&s3path=/s3usWest1/schools/9/events/184/video/&action=add&app=livehttporigin
+  *1.* rtmp://13.52.116.110:1935/livehttporigin/7GZP0l9
+  *2.* https://d2pe448uhcdckv.cloudfront.net/livehttporigin/ngrp:7GZP0l9_all/playlist.m3u8?DVR
+  *3.* http://13.52.116.110:8086/inject.xml?streamName=7GZP0l9&text=AB%2001%20XYZ%2002%2012:59%20P%20stop  _(replace `stop` with `start` to start clock on scoreboard)_
+=end

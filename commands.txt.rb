@@ -1,4 +1,9 @@
+scp -i pem_file.pem ubuntu@ec2-12-34-56-78.compute-1.amazonaws.com:/path/filename .
 ********************** Ubuntu Commands **********************
+Increase Workspace:
+gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ vsize 3
+gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ hsize 3
+
 Check if port is open:
 	nc -z <host> <port>; echo $?
 
@@ -15,6 +20,10 @@ sudo su
 
 #create jdk directory
 mkdir /opt/jdk
+
+"DANGER"
+#delete/remove directory
+rm -R directory_name
 
 #uncompress, change to your file name
 tar -zxf jdk-8u5-linux-x64.tar.gz -C /opt/jdk
@@ -38,6 +47,15 @@ update-alternatives --display javac
 #check if java is running
 java -version
 
+#Check upu usage
+sudo apt-get install sysstat
+iostat
+
+#Check memory
+free -m
+
+#Check hardware architecture
+lscpu
 
 Sublime License:
 ----- BEGIN LICENSE -----
@@ -101,6 +119,16 @@ Preferences => Settings
 Add { "update_check": false } in Preferences.sublime.settings - User
 
 
+Daemon Screen
+sudo apt-get install screen
+screen
+ctrl + a + d
+screen -r
+screen -r {scree_id}
+screen -list
+rake jobs:work
+
+
 *****Install Ruby on Rails*****
 1) suds apt-get update && sudo apt-get -y upgrade
 2) Intall curl
@@ -135,6 +163,8 @@ Add { "update_check": false } in Preferences.sublime.settings - User
 	rvm list gemsets
 2) To use ruby version
 	rvm use {version}
+	rvm use --default {version}
+	rvm {version} --default
 3) To install ruby version
 	rvm install {version}
 4) To install bundle
@@ -172,6 +202,17 @@ git config --global color.ui true
 git config --global user.name "Touqeer-tqr"
 git config --global user.email "tqr093@gmail.com"
 
+:"set user.name and email for seperate repositories"
+git config user.name "Touqeer-tqr"
+git config user.email "tqr093@gmail.com"
+		OR
+.git/config  	=>	edit this file
+For example:
+[core]
+	name = Touqeer-tqr
+    email = tqr093@gmail.com
+
+
 git filter-branch -f --env-filter "GIT_AUTHOR_NAME='Touqeer-tqr'; GIT_AUTHOR_EMAIL='tqr093@gmail.com'; GIT_COMMITTER_NAME='Touqeer'; GIT_COMMITTER_EMAIL='tqr093@gmail.com';" HEAD
 
 git clone /path/to/repository
@@ -181,17 +222,77 @@ view changes: git diff
 view changes ready to be commited: git diff --cached
 git diff <sourcebranch> <targetbranch>
 git log
+git log --oneline 
+git log --graph --oneline --decorate
+git log --since=2.weeks
+git log -3		=>		by num
+git log --after="2014-7-1"
+git log --after="yesterday" --before="2014-7-4"
+git log --author="Touqeer"
+git log --grep="JRA-224:"		=>		by message
+git log -S"Hello, World!"		=>		by content
+
+git log -p  	=>	with difference
 git st  =>  list of files edited
+check last modified date :
+	git st -s | while read mode file; do echo $mode $file $(stat -c %y $file); done
 git diff  =>  view changes
 git diff --cached  => view changes ready to be commited
 git diff <sourcebranch> <targetbranch>
-git log
 git add
+git add -u 	=>	to add deleted / modified / renamed
 git ci -m "message"
 git ci --amend
+git push -d <remote_name> <branch_name>		=>	Delete remtoe branch
+git branch -d <branch_name> 	=>	Delete local branch
+git branch -D <branch_name>		=>	Force Delete local branch
+git push <remote_name> --delete <branch_name>	=>	Delete remote branch
+
+"rebase"
+git rebase --interactive HEAD~[7]	=>	merge last seven commits into last commit with message of last commit
+--interactive or -i
+git rebase --interactive {commit_id}	=>	merge from commit_id to last commit
+    c1--c2--c3--c4--c5--c6  ==>   c1--c2--c3--c4(c5&c6)
+
+Example:
+git rebase -i HEAD~3
+Editable file will open with commits like:
+  pick f05aefa commit-msg-1
+  pick b260e42 commit-msg-1
+  pick 0c66d1c commit-msg-1
+Replace pick with squash or s
+  pick f05aefa commit-msg-1
+  s b260e42 commit-msg-1
+  s 0c66d1c commit-msg-1
+Ctrl+x ==> y
+  comment all messages except one, which will be used.
+
+"squash"
+git merge --squash branch_name
+Example:
+    c1--c2--c3--c4 (master)
+             \_c3.1--c.3.2 (my_branch)
+  git merge my_branch # => result will be
+    c1--c2--c3--c4--c3.1--c3.2
+  git merge --squash my_branch # => result will be
+    c1--c2--c3--c4(c3.1&c3.2)
+
+Localy Save changes: (stash)
+git stash
+git stash apply
+git stash list
+git stash clear
 
 git remote add {remote_name} {server}
 list remote servers: git remote -v
+git remote rm origin_name
+git push <remote_name> --delete <branch_name>
+
+git remote set-url origin {remote_url}
+
+git remote rename origin destination
+# Change remote name from 'origin' to 'destination' (remote rename)
+
 push branch: git push {remote_name} master
 
 merge branch: git merge <branchname>
@@ -216,10 +317,12 @@ rename branch:
 reset file: git checkout -- <filename>
 to drop all your local changes and commits, fetch the latest history from the server and point your local master branch at it
 git fetch origin
+git reset --soft HEAD@{1}
+git reset --hard HEAD
 git reset --hard origin/master
 git reset to commit: git reset --hard commit_num
-git reset to commit: git reset --hard 60e6c62afdc5273232a1470e576f2bac594aff26
-
+git reset to commit: git reset --hard 15e8c70ef9a04ce0125a2dbe9c10dc60c0ce07a3
+git reset to commit: git reset --soft 16903bf76c436a97ba04c93c801330f8fccd626c
 To show what will be deleted by using the -n option:
 git clean -n
 Clean Step - beware: this will delete files:
@@ -230,14 +333,58 @@ add chrome drive heroku app
 heroku buildpacks:add https://github.com/heroku/heroku-buildpack-chromedriver
 heroku run bash
 git push heroku yourbranch:master
+heroku logs -t
+heroku config:set S3_KEY=ABC123 S3_SECRET=ABC123+ABC123
+heroku config:unset S3_KEY=ABC123 S3_SECRET=ABC123+ABC123
+heroku run printenv
+
+heroku pg:backups:capture
+heroku pg:backups:download
 
 ********************** Active Records Commands **********************
 rake db:create
 rake db:migrate
+rake db:seed
 rake db:setup
 rake db:rollback
 rake db:migrate:status
-rake db:migrate:down VERSION=847583457438957
+rake db:migrate:down VERSION=20180807130147
+
+List All tables
+	ActiveRecord::Base.connection.tables
+
+	Model.destroy_all
+
+Delete/Drop Table from ActiveRecord
+ActiveRecord::Migration.drop_table(:table_name)
+
+Reset ids after destroy (Truncate)
+	ActiveRecord::Base.connection.execute("TRUNCATE model_name RESTART IDENTITY")
+	i.e.	ActiveRecord::Base.connection.execute("TRUNCATE users RESTART IDENTITY")
+	For Sqlite
+	User.destroy_all # Only necessary if you want to trigger callbacks.
+	ActiveRecord::Base.connection.execute("Delete from users")
+	ActiveRecord::Base.connection.execute("DELETE FROM SQLITE_SEQUENCE WHERE name='users'")
+
+Convert one time zone to another time zone
+	t = event.date.to_s + " " + event.time.to_s + " " + Time.now.in_time_zone(event.school.time_zone).strftime("%z")
+	Time.parse(t).in_time_zone(current_user.time_zone).strftime("%m/%d/%g %I:%M%P")
+
+ID start value
+mysql:
+	ActiveRecord::Base.connection.execute("ALTER TABLE links AUTO_INCREMENT = 170")
+postgresql:
+	ActiveRecord::Base.connection.execute("ALTER SEQUENCE events_id_seq START with 171 RESTART;")
+sqlite:
+    ActiveRecord::Base.connection.execute("insert into sqlite_sequence(name,seq) values('links', 1000)")
+
+Backup & Restore database:
+pg_dump -F c -v -U postgres -h localhost app_live_development -f public/backup-Oct-1-2018.psql
+
+dropdb -h localhost -U postgres zoom_live_development
+createdb -h localhost -U postgres -T template0 zoom_live_development
+pg_restore -h localhost -p 5432 -U postgres -d zoom_live_development -W public/backup-Oct-1-2018.psql
+pg_restore -h zoom-production.clmmynlwbfnd.us-east-1.rds.amazonaws.com -p 5432 -U postgres -d zoom_live_development -W public/backup-Oct-1-2018.psql
 
 ********************** Rails Commands **********************
 rails new app_name
@@ -248,10 +395,17 @@ rails new app_name --skip-activerecord
 
 rails s -b IP
 rails s -p PORT
+kill -9 $(lsof -i tcp:3000 -t)
 gem list
-gem list name
-gem install fog -v 1.8
-gem uninstall fog -v 1.8
+gem list {gem_name}
+gem install {gem_name} -v 1.8a
+# remove all old versions of the gem
+gem cleanup {gem_name}
+# choose which ones you want to remove
+gem uninstall {gem_name}
+# remove sprcific versions
+gem uninstall {gem_name} --version '<1.3.4'
+
 
 rails _4.2.6_ new sample_react_rails --database=postgresql
 rails generate scaffold Post title:string content:text
@@ -267,9 +421,41 @@ rails generate model Post user_id:integer
 				OR
 rails generate model Post user:references
 
+"Add email to user model"
+rails generate migration add_email_to_users email:string
+
 "using alias on model name"
 has_many :posts, class_name: :Post, foreign_key: :user_id, dependent: :destroy
 belongs_to :article, class_name: :User, foreign_key: :user_id
+
+"remove migration"
+rake db:migrate:down VERSION=versionnumber
+rails d migration migration_name
+	=>	rails d migration create_participants
+
+"has_many through"
+Event.rb 	=>	has_many :users, through: :participants
+User.rb 	=>	has_many :events, through: :participants
+rails g model Participant user:references event:references
+Participant.rb	=>	belongs_to :user
+					belongs_to :event
+
+"many to many"
+  has_and_belongs_to_many :users
+  has_and_belongs_to_many :categories
+  rails g migration CreateCategoriesUsersJoinTable
+
+  ==> migration file
+    def change
+	  # This is enough; you don't need to worry about order
+	  create_join_table :categories, :users
+
+	  # If you want to add an index for faster querying through this join:
+	  create_join_table :categories, :users do |t|
+	    t.index :category_id
+	    t.index :user_id
+	  end
+	end
 
 "model vs resource vs scaffold"
 rails g model Test name:text
@@ -297,3 +483,61 @@ rails g scaffold Test name:text
 					new.html.erb
 					show.html.erb
 					show.json.jbuilder	]
+
+Open gem in sublime
+bundle show devise | xargs subl
+
+********************** AWS Commands **********************
+:"change access of any file on aws"
+Aws.config[:credentials] = Aws::Credentials.new( ENV['AWS_ACCESS_KEY'], ENV['AWS_SECRET_ACCESS_KEY'] )
+client = Aws::S3::Client.new(region: ENV['AWS_REGION'])
+path = "uploads/#{current_user.id}/images/test_image.png"
+resp = client.put_object_acl({ acl: "public-read", bucket: ENV['S3_BUCKET'], key: path })
+
+begin
+  # something which might raise an exception
+rescue SomeExceptionClass => some_variable
+  # code that deals with some exception
+rescue SomeOtherException => some_other_variable
+  # code that deals with some other exception
+else
+  # code that runs only if *no* exception was raised
+ensure
+  # ensure that this code always runs, no matter what
+  # does not change the final value of the block
+end
+
+
+********************** Style (CSS, SCSS) **********************
+.two lines doted text
+{
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-line-clamp: 2;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+}
+
+********************** Javascript, Jquery **********************
+function CopyToClipboardWithInputfield(){
+    var copyText = document.getElementById("destination_url");
+    copyText.select();
+    document.execCommand("copy");
+}
+function CopyToClipboardWithOutInputField (containerid) {
+  // Create a new textarea element and give it id='temp_element'
+  var textarea = document.createElement('textarea')
+  textarea.id = 'temp_element'
+  // Optional step to make less noise on the page, if any!
+  textarea.style.height = 0
+  // Now append it to your page somewhere, I chose <body>
+  document.body.appendChild(textarea)
+  // Give our textarea a value of whatever inside the div of id=containerid
+  textarea.value = document.getElementById(containerid).value
+  // Now copy whatever inside the textarea to clipboard
+  var selector = document.querySelector('#temp_element')
+  selector.select()
+  document.execCommand('copy')
+  // Remove the textarea
+  document.body.removeChild(textarea)
+}
