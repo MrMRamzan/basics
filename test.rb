@@ -1,3 +1,11 @@
+require 'open-uri'
+require 'date'
+# require 'nokogiri'
+# require 'net/http'
+# require 'watir'
+# require "selenium-webdriver"
+require 'byebug'
+
 # str = "A-Be:"
 # p str.include?('-')
 # p str.size < 2
@@ -14,12 +22,6 @@
 # p cities[0].keys[0]
 
 # ***********************************************************
-
-# require 'nokogiri'
-# require 'net/http'
-# require 'watir'
-# require "selenium-webdriver"
-# require 'byebug'
 
 # Selenium::WebDriver::Chrome.driver_path = "/home/touqeer/Desktop/rightmove/chromedriver"
 # url = "http://www.rightmove.co.uk/property-for-sale/Aberdeen-County.html"
@@ -167,5 +169,13 @@ end
 # p property_data.merge!(image_url: "image_url")
 # p property_data
 
+# puts "£745,000".gsub("£","").gsub(",","").to_i
 
-puts "£745,000".gsub("£","").gsub(",","").to_i
+p DateTime.now.strftime('%Y%m%d%H%M%S')
+# xlsm_file = 'https://s3.amazonaws.com/buildsourced-production-1/Tenna+Asset+Report+v18.6.5.xlsm'
+# xlsx_file = "https://s3.amazonaws.com/buildsourced-production-1/Asset+Data+File.xlsx"
+# p open(xlsm_file).read
+
+# p download = open(xlsx_file).read
+# File.open('/tmp/Asset Data File.xlsx', 'wb') {|f| f.write(open(xlsx_src).read) }
+p 'active', as: :select, collection: ['pending', 'active','block']

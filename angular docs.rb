@@ -1,5 +1,5 @@
 Why use Angular?
-Two Wway binding
+Two way binding
 A declarative user interface.
 Write Less Code
 Power of MVVM
@@ -89,14 +89,14 @@ Angular 4 is a JavaScript framework for building web applications and apps in Ja
 which is a superset of JavaScript. Angular provides built-in features for animation, http service,
 and materials which in turn has features such as auto-complete, navigation, toolbar, menus, etc.
 The code is written in TypeScript, which compiles to JavaScript and displays the same in the browser.
-	++++++++++++++++++
-	+		TS		 +
-	+  ++++++++++++  +
-	+  +          +  +
-	+  +    JS    +  +
-	+  +          +  +
-	+  ++++++++++++  +
-	++++++++++++++++++
+  ++++++++++++++++++
+  +       TS       +
+  +  ++++++++++++  +
+  +  +          +  +
+  +  +    JS    +  +
+  +  +          +  +
+  +  ++++++++++++  +
+  ++++++++++++++++++
 
 Although Angular 2 was a complete rewrite of AngularJS.
 The structure of Angular is based on the components/services architecture.
@@ -135,3 +135,25 @@ srcs/app/app.component.ts
 
 >>>>>Module<<<<<
 Module in Angular refers to a place where you can group the components, directives, pipes, and services, which are related to the application.
+app.module.ts =>  NgModule
+      Declarations, Iports, bootstrap
+
+>>>>Binding<<<<<
+    <tag *ngFor="let i of months">{{i}}</tag>
+
+>>>>Directive<<<
+create => ng g directive nameofthedirective
+  directives are extended HTML attributes 
+  whatever we define in the selector, the same has to match in the view, where we assign the custom directive.
+
+>>>>Pipe / filters(Angular1)
+The | character is used to transform data.
+i.e. {{ Welcome to Angular 4 | lowercase}}
+ = Lowercasepipe
+ = Uppercasepipe
+ = Datepipe
+ = Currencypipe
+ = Jsonpipe
+ = Percentpipe
+ = Decimalpipe
+ = Slicepipe

@@ -1,4 +1,7 @@
 ********************** Ubuntu Commands **********************
+Check if port is open:
+	nc -z <host> <port>; echo $?
+
 ubuntu-support-status
 sudo apt-get install unity-tweak-tool
 uname -i
@@ -127,6 +130,22 @@ Add { "update_check": false } in Preferences.sublime.settings - User
 8) Install Rails
 	gem install rails -v 4.2.6
 
+*****Sample ROR Project*****
+1) To view list of ruby versions
+	rvm list gemsets
+2) To use ruby version
+	rvm use {version}
+3) To install ruby version
+	rvm install {version}
+4) To install bundle
+	gem install bundler
+4) Create Rails Project
+	rails new app_name
+5) Go to project directory
+	cd app_name
+6) Install gem
+	bundle
+
 *****Install Angular*****
 1) install nodejs > 8	=>	sudo apt-get install nodejs
 2) install npm > 3		=>	sudo apt-get install npm
@@ -153,6 +172,8 @@ git config --global color.ui true
 git config --global user.name "Touqeer-tqr"
 git config --global user.email "tqr093@gmail.com"
 
+git filter-branch -f --env-filter "GIT_AUTHOR_NAME='Touqeer-tqr'; GIT_AUTHOR_EMAIL='tqr093@gmail.com'; GIT_COMMITTER_NAME='Touqeer'; GIT_COMMITTER_EMAIL='tqr093@gmail.com';" HEAD
+
 git clone /path/to/repository
 
 list of files edited: git st
@@ -160,12 +181,15 @@ view changes: git diff
 view changes ready to be commited: git diff --cached
 git diff <sourcebranch> <targetbranch>
 git log
-
-
+git st  =>  list of files edited
+git diff  =>  view changes
+git diff --cached  => view changes ready to be commited
+git diff <sourcebranch> <targetbranch>
+git log
 git add
-git ci
+git ci -m "message"
 git ci --amend
-git st
+
 git remote add {remote_name} {server}
 list remote servers: git remote -v
 push branch: git push {remote_name} master
@@ -193,17 +217,27 @@ reset file: git checkout -- <filename>
 to drop all your local changes and commits, fetch the latest history from the server and point your local master branch at it
 git fetch origin
 git reset --hard origin/master
-reset to commit: git reset --hard commit_num
+git reset to commit: git reset --hard commit_num
+git reset to commit: git reset --hard 60e6c62afdc5273232a1470e576f2bac594aff26
 
+To show what will be deleted by using the -n option:
+git clean -n
+Clean Step - beware: this will delete files:
+git clean -f
 
 ********************** Heroku Commands **********************
-
+add chrome drive heroku app
 heroku buildpacks:add https://github.com/heroku/heroku-buildpack-chromedriver
 heroku run bash
 git push heroku yourbranch:master
 
 ********************** Active Records Commands **********************
-
+rake db:create
+rake db:migrate
+rake db:setup
+rake db:rollback
+rake db:migrate:status
+rake db:migrate:down VERSION=847583457438957
 
 ********************** Rails Commands **********************
 rails new app_name
@@ -212,6 +246,15 @@ rails new app_name -d mysql
 rails new right_move_scrap --database=postgresql
 rails new app_name --skip-activerecord
 
+rails s -b IP
+rails s -p PORT
+gem list
+gem list name
+gem install fog -v 1.8
+gem uninstall fog -v 1.8
+
+rails _4.2.6_ new sample_react_rails --database=postgresql
+rails generate scaffold Post title:string content:text
 
 rails generate model NAME [field[:type][:index] field[:type][:index]] [options]
 
@@ -219,12 +262,38 @@ rails generate devise user first_name:string last_name:string verified:boolean s
 
 rails generate devise:controllers users
 
-rails g model blog type:string count:integer approved:boolean status:string title:string tags:string
-rails g model blog_content content:text type:string order:integer
-content has images
+"Create relation during model creation"
+rails generate model Post user_id:integer
+				OR
+rails generate model Post user:references
 
+"using alias on model name"
+has_many :posts, class_name: :Post, foreign_key: :user_id, dependent: :destroy
+belongs_to :article, class_name: :User, foreign_key: :user_id
 
-gem list
-gem list name
-gem install fog -v 1.8
-gem uninstall fog -v 1.8
+"model vs resource vs scaffold"
+rails g model Test name:text
+	models/test.rb 
+	CreatTest migrate file in db/migrate
+
+rails g resource Test name:text
+	models/test.rb 
+	CreatTest migrate file in db/migrate
+	controllers/tests_controller.rb
+	routes.rb  ==>  resources :tests
+ 
+rails g scaffold Test name:text
+	models/test.rb 
+	CreatTest migrate file in db/migrate
+	controllers/tests_controller.rb (7 public methods and 2 private methods)
+						public: index, show, new, create, edit, update, delete
+						private: set_test, test_params
+	routes.rb  ==>  resources :tests
+	views/tests/["corresponding view files"
+					_form.html.erb
+					edit.html.erb
+					index.html.erb
+					index.json.jbuilder
+					new.html.erb
+					show.html.erb
+					show.json.jbuilder	]
