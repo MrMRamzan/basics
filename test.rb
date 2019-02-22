@@ -402,7 +402,7 @@ p (endClip - endoffset - startoffset)..(endClip - endoffset)
 # authorization = OpenStruct.new(hash)
 # p authorization.created_at
 
-# authorization = OpenStruct.new({created_at: Date.today, status: 'active', plan: OpenStruct.new(amount: 33.0)})
+authorization = OpenStruct.new({created_at: Date.today, status: 'active', plan: OpenStruct.new(amount: 33.0)})
 # p authorization.plan.amount
 
 # p '*************'
@@ -460,3 +460,138 @@ p (endClip - endoffset - startoffset)..(endClip - endoffset)
   *2.* https://d2pe448uhcdckv.cloudfront.net/livehttporigin/ngrp:7GZP0l9_all/playlist.m3u8?DVR
   *3.* http://13.52.116.110:8086/inject.xml?streamName=7GZP0l9&text=AB%2001%20XYZ%2002%2012:59%20P%20stop  _(replace `stop` with `start` to start clock on scoreboard)_
 =end
+
+
+pprice = ""
+p pprice.present?
+
+p !!authorization.sb
+
+
+# authorization = OpenStruct.new({application_fee_percent: nil, billing: "charge_automatically", billing_cycle_anchor: 1538842309, billing_thresholds: nil, cancel_at_period_end: false, canceled_at: nil, created: 1538583109, current_period_end: 1549469509, current_period_start: 1546791109, customer: "cus_DieFlyos04IaW7", days_until_due: nil, default_source: nil, discount: nil, ended_at: nil, id: "sub_DieFnHrZ6Dtu1H", 
+#       items: OpenStruct.new({
+#         data: OpenStruct.new([billing_thresholds: nil, created: 1538583109, id: "si_DieFLs967sckEX", 
+#           metadata: OpenStruct.new({object: "subscription_item", plan: active: true, aggregate_usage: nil, amount: 6900, billing_scheme: "per_unit", created: 1497399714, currency: "usd", id: "zen-dvd-us", interval:"month", interval_count; 1, livemode: false, 
+#             metadata: OpenStruct.new({name: "Zen Arbitrage: DVDs", nickname: nil, object: "plan", product: "prod_BUF1xawdjsv0wP", statement_descriptor: nil, tiers: nil, tiers_mode: nil. transform_usage: nil, trial_period_days: 3, usage_type: "licensed", quantity: 1, subscription: "sub_DieFnHrZ6Dtu1H"})
+#           has_more: false, object: "list", total_count: 1, url: "/v1/subscription_items?subscription=sub_DieFnHrZ6Dtu1H", livemode: false, 
+#             metadata: OpenStruct.new({object: "subscription", 
+#               plan: OpenStruct.new({active: true, aggregate_usage: nil, amount: 6900, billing_scheme: "per_unit", created: 1497399714, currency: "usd", id: "zen-dvd-us", interval: "month", interval_count: 1, livemode: false, 
+#                 metadata: OpenStruct.new({name=: "Zen Arbitrage: DVDs", nickname: nil, object: "plan", product: "prod_BUF1xawdjsv0wP", statement_descriptor: nil, tiers: nil, tiers_mode: nil, transform_usage: nil, trial_period_days: 3, usage_type: "licensed", quantity: 1, start: 1538583109, status: "active", tax_percent: nil, trial_end: 1538842309, trial_start: 1538583109})
+#     }
+
+
+p "******************************"
+
+class User
+  funs = ['id', 'first_name', 'last_name', 'created_at', 'updated_at']
+  funs.each do |n|
+    (class << self; self; end).instance_eval do
+      define_method("find_by_#{n}") do |arg=nil|
+        p "Select * From User Where #{n} = #{arg};"
+      end
+    end
+  end
+end
+
+User.find_by_last_name 'tqr'
+
+class Book
+  def self.send arg=nil
+    p 'war jao tum'
+  end
+  def send arg=nil
+    p 'war jao tum'
+  end
+  private
+  def self.set_book
+    p "###"
+  end
+end
+
+Book.new.send :set_book
+Book.send :set_book
+
+
+
+user = {name: 'asd'}
+# user.name
+
+user = OpenStruct.new({name: 'asd'})
+p user.name
+
+all_filters = [:min_price, :max_price, :new_min_price, :new_max_price, :profit_optimizer_new, :profit_optimizer_used, :profit_optimizer_new_min, :profit_optimizer_used_min]
+
+filters = {:min_price=>"$0.00", :max_price=>"$100.00", :new_min_price=>"$0.00", :new_max_price=>"$100.00", :with_trade_in_value=>"1", :profit_optimizer_new=>"$100.00", :profit_optimizer_used=>"$100.00", :browse_nodes=>["1000"], :page=>1}
+p filters
+
+filt = filters.map { |k, v| "#{all_filters.include?(k) ? v.gsub('$', '').to_f : v}" }
+  # p v = v.gsub('$', '').to_f if all_filters.include?(k)
+  # [k, v.gsub('$', '').to_f if all_filters.include?(k)]
+  # if v.respond_to?(:to_str) && all_filters.includes(k)
+
+  # end
+# } 
+
+filters.each{ |key, val| (filters[key] = val.gsub('$', '').to_f) if all_filters.include?(key) }
+
+p filters
+p filt
+
+p "12.3".include?('$')
+
+
+sort_params = {asd: 123}
+p sort_params[:asd]
+p sort_params
+
+p parms = {user: {a: 1, b: 2, c: 3}}
+p parms[:user].merge(d: 4)
+p parms[:user].merge(d: 4)
+
+p wer ||= 2
+p wer ||= 3
+
+i=0
+b = ++i
+p b
+
+
+# p "School Name" == "school Name"
+result = []
+p result.is_a? Array
+p result[0].nil?
+
+faulty_schools = []
+faulty_schools << { row: 0, error: "e.message" }
+faulty_schools << { row: 1, error: "e.message" }
+faulty_schools.map{|r| p r[:row] }
+faulty_schools = []
+faulty_schools << 1
+faulty_schools << 2
+p faulty_schools.first.class
+
+
+
+class User
+  funs = ['id', 'first_name', 'last_name', 'created_at', 'updated_at']
+  funs.each do |n|
+    (class << self; self; end).instance_eval do
+      define_method("find_by_#{n}") do |arg=nil|
+        p "Select * From User Where #{n} = #{arg};"
+      end
+    end
+  end
+end
+
+User.find_by_last_name 'tqr'
+
+p ['purchased', 'recieved', 'sold'].include?('purchaseds')
+
+# (0..200).each do |i|
+#   if(i%3 == 0)
+#     p ((i%9)/3)+1
+#   end
+# end
+
+"12:56 am"
+"00:56"

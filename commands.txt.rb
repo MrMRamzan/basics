@@ -1,5 +1,15 @@
 scp -i pem_file.pem ubuntu@ec2-12-34-56-78.compute-1.amazonaws.com:/path/filename .
+scp -r -i pem_file.pem ubuntu@ec2-12-34-56-78.compute-1.amazonaws.com:/path/foldername .
+scp -r -i pem_file.pem ubuntu@ec2-12-34-56-78.compute-1.amazonaws.com:/path/filename filename
 ********************** Ubuntu Commands **********************
+copy file
+  cp file_name /destination/
+copy folder
+  cp -R /source_folder/* /destination_folder/
+Delete/Remove File
+  rm file_name
+Delete/Remove Folder
+  rm -R folder_name
 Increase Workspace:
 gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ vsize 3
 gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ hsize 3
@@ -112,6 +122,24 @@ B7B2E826 E6FDAA72 2C653693 5D80582F
 F28EBB17 9C07403F D44BA75A C23C6874
 EBF11238 5546C3DD 737DC616 445C2941
 —— END LICENSE ——
+
+
+Preferences ==> Settings
+{
+  "color_scheme": "Monokai.sublime-color-scheme",
+  "font_size": 10,
+  "ignored_packages":
+  [
+    "Vintage"
+  ],
+  "tab_size": 2,
+  "translate_tabs_to_spaces": true,
+  "show_errors_inline": false,
+  "word_wrap": true,
+  "highlight_modified_tabs": true
+}
+
+
 
 
 Disable update notification in Sublime:
@@ -334,6 +362,7 @@ heroku buildpacks:add https://github.com/heroku/heroku-buildpack-chromedriver
 heroku run bash
 git push heroku yourbranch:master
 heroku logs -t
+heroku logs -t -n 1500 --app=app_name
 heroku config:set S3_KEY=ABC123 S3_SECRET=ABC123+ABC123
 heroku config:unset S3_KEY=ABC123 S3_SECRET=ABC123+ABC123
 heroku run printenv
@@ -341,6 +370,11 @@ heroku run printenv
 heroku pg:backups:capture
 heroku pg:backups:download
 
+check running dynos
+heroku ps --app app-name
+
+stop running dyno
+heroku ps:stop web.1 --app app-name
 ********************** Active Records Commands **********************
 rake db:create
 rake db:migrate
@@ -386,6 +420,9 @@ createdb -h localhost -U postgres -T template0 zoom_live_development
 pg_restore -h localhost -p 5432 -U postgres -d zoom_live_development -W public/backup-Oct-1-2018.psql
 pg_restore -h zoom-production.clmmynlwbfnd.us-east-1.rds.amazonaws.com -p 5432 -U postgres -d zoom_live_development -W public/backup-Oct-1-2018.psql
 
+
+User.left_outer_joins(:broadcaster).where(broadcasters: {user_id: nil}).map{|u| [u.email, u.id]}
+User.joins(:broadcaster).where("email LIKE ?", "%#{v}%").select('users.id, broadcasters.id as broadcaster_id').collect(&:broadcaster_id)
 ********************** Rails Commands **********************
 rails new app_name
 rails _2.1.0_ new my_app
@@ -406,13 +443,12 @@ gem uninstall {gem_name}
 # remove sprcific versions
 gem uninstall {gem_name} --version '<1.3.4'
 
-
 rails _4.2.6_ new sample_react_rails --database=postgresql
 rails generate scaffold Post title:string content:text
 
 rails generate model NAME [field[:type][:index] field[:type][:index]] [options]
 
-rails generate devise user first_name:string last_name:string verified:boolean status:string role:string
+rails generate devise user first_name:string last_name:string verified:boolean status:string phone_num: string image:string time_zone:string
 
 rails generate devise:controllers users
 
@@ -487,6 +523,28 @@ rails g scaffold Test name:text
 Open gem in sublime
 bundle show devise | xargs subl
 
+
+Rails Migration to change table name:
+class RenameOldTableToNewTable < ActiveRecord::Migration
+  def self.up
+    rename_table :old_table_name, :new_table_name
+  end
+  def self.down
+    rename_table :new_table_name, :old_table_name
+  end
+end
+
+In Rails 3.1 & 4, ActiveRecord::Migration::CommandRecorder knows how to reverse rename_table migrations, so you can do this:
+class RenameOldTableToNewTable < ActiveRecord::Migration
+  def change
+    rename_table :old_table_name, :new_table_name
+  end 
+end
+
+ActiveAdmin
+To register an existing model with Active Admin:
+  rails generate active_admin:resource MyModel
+
 ********************** AWS Commands **********************
 :"change access of any file on aws"
 Aws.config[:credentials] = Aws::Credentials.new( ENV['AWS_ACCESS_KEY'], ENV['AWS_SECRET_ACCESS_KEY'] )
@@ -541,3 +599,4 @@ function CopyToClipboardWithOutInputField (containerid) {
   // Remove the textarea
   document.body.removeChild(textarea)
 }
+
