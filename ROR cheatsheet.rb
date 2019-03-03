@@ -228,6 +228,9 @@ p "********************** Monkey-Patching / Duck-Punching **********************
 <<desc
   Re-open any class and change it’s methods.
   use full when you want to overide an existing method i.e.
+  "Monkey Patching"
+  class << self
+  end
 desc
 class User
   def self.send arg=nil
@@ -266,6 +269,18 @@ a = [ "a", "b", "c", "d" ]
 p a.collect {|x| x + "!" }
 p a.map {|x| x + "!" }
 p a.each {|x| x + "!" }
+
+map_test = {
+ 'a1' => {'w1' => 'k1', 'x1' => 'l1', 'y1' => 'm1', 'z1' => 'n1'},
+ 'a2' => {'w2' => 'k2', 'x2' => 'l2', 'y2' => 'm2', 'z2' => 'n2'},
+ 'a3' => {'w3' => 'k3', 'x3' => 'l3', 'y3' => 'm3', 'z3' => 'n3'}}
+p result = map_test.keys + map_test.values.map{|n| n.keys }.transpose + map_test.values.map{|n| n.values }.transpose
+      "OR"
+p result = map_test.keys
+4.times { |i| result += map_test.map { |n| p n.last.keys[i] } }
+4.times { |i| result += map_test.map { |n| p n.last.values[i] } }
+p result # => ["a1", "a2", "a3", "w1", "w2", "w3", "x1", "x2", "x3", "y1", "y2", "y3", "z1", "z2", "z3", "k1", "k1", "k1", "l1", "l2", "l3", "m1", "m2", "m3", "n1", "n2", "n3"]
+
 
 p "********************** Comparisoin **************************"
 <<comparisoin
@@ -361,17 +376,6 @@ p "********************** Rails Directory Structure **************************"
   Enviroment.rb
     Initializes rails application for the environment
 dir_structure
-p "********************** REST API request types **************************"
-<<api
-  REST APIs uses multiple standards like HTTP, JSON, URL, and XML
-  while SOAP APIs is largely based on HTTP and XML
-
-  GET: Retrieve information...
-  POST: Request for the resource at the URI do something with the provided entity...
-  PUT: Store an entity at a URI...
-  PATCH: Update only the specified fields of an entity at a URI...
-  DELETE: Request that a resource be removed...
-api
 p "********************** MySQL vs PostgreSQL vs MongoDB **************************"
 <<db_comparison
   Relational Database:
@@ -445,6 +449,10 @@ p "********************** Complex Relation Examples **************************"
     has_many :participants, dependent: :destroy
     has_many :participated_schools, through: :participants, source: :school#, foreign_key: :user_id
   end
+  class Participant < ActiveRecord::Base
+    belongs_to :school#, foreign_key: :user_id
+    belongs_to :user
+  end
 associations_exampls
 
 p "********************** ActiveRecord Queries / Scope **************************"
@@ -477,3 +485,67 @@ p "********************** Eager Loading (preload(), includes(), eager_load() ) *
     eager_load() when use with 'where'
     depending on the scenarios
 eager_load
+p "********************** Routes **************************"
+<<routes
+  root to: 'home#index'
+  resources :events, except: [:destroy]  do
+    member do
+      get 'download' # => /events/:id/download
+      get 'highlight/:clip_id', to: 'clips#highlight', as: 'clips_highlight'
+    end
+    collection do
+      match "upload", via: [:get, :post]
+      get 'download_template' # => /events/download_template
+    end
+  end
+  resources :posts # => (plural) makes following 7 routes:
+    GET             index         /posts
+    GET             new           /posts/new
+    POST            create        /posts
+    GET             show          /posts/:id
+    GET             edit          /posts/:id/edit
+    PATCH/PUT       update        /posts/:id
+    DELETE          destroy       /posts/:id
+
+  resource :post # => (singluar) makes following 6 routes:
+    GET             new           /post/new
+    POST            create        /post
+    GET             show          /post
+    GET             edit          /post/edit
+    PATCH/PUT       update        /post
+    DELETE          destroy       /post
+routes
+p "********************** REST API request types **************************"
+<<api
+  REST APIs uses multiple standards like HTTP, JSON, URL, and XML
+  while SOAP APIs is largely based on HTTP and XML
+
+  GET: Retrieve information...
+  POST: Request for the resource at the URI do something with the provided entity...
+  PUT: Store an entity at a URI...
+  PATCH: Update only the specified fields of an entity at a URI...
+  DELETE: Request that a resource be removed...
+
+  API routes:
+  rails new api_app_name --api # => API only app
+  # token = SecureRandom.base64.tr('+/=', 'Qrt')
+  constraints subdomain: 'api' do
+    scope module: 'api' do
+      namespace :v1, defaults: { format: :json } do
+        resources :users
+        defaults: { format: :json }
+      end
+    end
+  end
+  # app/controllers/api/v1/api_controller.rb
+  module Api::V1
+    class ApiController < ApplicationController
+      # Generic API stuff here
+    end
+  end
+  # app/controllers/api/v1/users_controller.rb
+  module Api::V1
+    class UsersController < ApiController
+    end
+  end
+api

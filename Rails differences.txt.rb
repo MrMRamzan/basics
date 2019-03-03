@@ -51,7 +51,9 @@ Rails 5.2:
     sleep(1)
     Time.current # => Sun, 09 Jul 2017 15:34:49 EST -05:00
 * Recyleable Cache Keys
-    On updating a record Rails compares the cache_version of your record with the version stored in the ActiveSupport::Cache::Entry object. If they don’t match, Rails acts as though it encountered a cache miss and it over-writes the existing cache key instead of creating a new one and leaving the old one. And so this should result in lower cache memory use?
+    On updating a record Rails compares the cache_version of your record with the version stored in the ActiveSupport::Cache::Entry object. 
+    If they don’t match, Rails acts as though it encountered a cache miss and it over-writes the existing cache key instead of creating a new one and leaving the old one. 
+    And so this should result in lower cache memory use?
     config.active_record.cache_versioning = true
     i.e. store last 5 updates of a record
           post.cache_key & post.cache_verion
@@ -64,3 +66,8 @@ Rails 5.2:
 * Person.pick(:name).first
 tmp cache
 
+Rails 6.0.0:
+* Action Mailbox
+* Action Text
+* Parallel Testing
+* Action Cable Testing

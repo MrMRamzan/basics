@@ -1,4 +1,4 @@
-"Current Latest stable Version: V2.5.3"
+"Current Latest stable Version: V2.6.1"
 
 map_test = {
  'a1' => {'w1' => 'k1', 'x1' => 'l1', 'y1' => 'm1', 'z1' => 'n1'},
@@ -85,6 +85,7 @@ p '*******************************'
 	Ruby 2.6 introduces RubyVM::AST (Abstract Syntax Tree) module.
 	Speedup Proc#call & block.call
 
-	Transient Heap (theap) is introduced, which is managed heap for short-living memory objects (short lifetime) which are pointed by specific classes (Array, Hash, Object, and Struct).
+	Transient Heap (theap) is introduced, which is managed heap for short-living memory objects (short lifetime)
+	which are pointed by specific classes (Array, Hash, Object, and Struct).
 		For example, making small and short-living Hash object is x2 faster 
 "
